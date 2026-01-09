@@ -1,24 +1,2 @@
-[00:00:01.559] Server  WARN     ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
-[00:00:01.727] Server  LOG      ✓ Ready in 1383ms
-[00:00:10.335] Server  LOG      ○ Compiling / ...
-[00:00:11.614] Server  LOG     User not authenticated
-[00:00:11.857] Server  LOG     User not authenticated
-[00:00:14.506] Server  LOG     User not authenticated
-[00:00:15.551] Server  LOG     User not authenticated
-[00:00:16.160] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:16.747] Server  LOG      ✓ Compiled in 219ms
-[00:00:16.875] Server  LOG     User not authenticated
-[00:00:16.970] Server  LOG     User not authenticated
-[00:00:17.142] Server  LOG     User not authenticated
-[00:00:17.392] Browser DEBUG   binding to error
-[00:00:17.609] Server  LOG     User not authenticated
-[00:00:17.923] Server  LOG     User not authenticated
-[00:00:18.324] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:21.276] Server  LOG     User not authenticated
-[00:00:21.816] Server  LOG      ✓ Compiled in 117ms
-[00:00:21.905] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:22.219] Server  LOG     User not authenticated
-[00:00:22.317] Server  LOG     User not authenticated
-[00:00:22.542] Server  LOG     User not authenticated
-[00:00:23.741] Browser DEBUG   binding to error
-[00:00:23.885] Server  LOG     User not authenticated
+[00:00:01.535] Server  WARN     ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+[00:00:01.710] Server  LOG      ✓ Ready in 1349ms
