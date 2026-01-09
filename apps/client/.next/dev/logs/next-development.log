@@ -1,2 +1,135 @@
-[00:00:02.971] Server  WARN     ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
-[00:00:03.384] Server  LOG      ✓ Ready in 2.5s
+[00:00:01.561] Server  WARN     ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+[00:00:01.723] Server  LOG      ✓ Ready in 1335ms
+[00:00:10.328] Server  LOG      ○ Compiling / ...
+[00:00:11.892] Server  LOG     User not authenticated
+[00:00:12.312] Server  LOG     User not authenticated
+[00:00:14.031] Server  LOG     User not authenticated
+[00:00:14.124] Server  LOG     User not authenticated
+[00:00:14.169] Server  LOG     User not authenticated
+[00:00:15.440] Server  LOG     User not authenticated
+[00:00:17.123] Browser DEBUG   binding to error
+[00:00:18.306] Server  LOG     User not authenticated
+[00:00:22.218] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:22.295] Server  LOG     User not authenticated
+[00:00:22.993] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:24.308] Server  LOG     User not authenticated
+[00:00:26.206] Server  LOG     User not authenticated
+[00:00:27.090] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:30.311] Server  LOG     User not authenticated
+[00:00:36.307] Server  LOG     User not authenticated
+[00:00:41.176] Browser ERROR   ❌ [LOGIN] error {}
+[00:00:42.313] Server  LOG     User not authenticated
+[00:00:48.313] Server  LOG     User not authenticated
+[00:00:54.314] Server  LOG     User not authenticated
+[00:00:59.807] Server  LOG     User not authenticated
+[00:01:00.315] Server  LOG     User not authenticated
+[00:01:01.228] Browser WARN    Image with src "https://df37a7d2869f4653997f3fdf6dd680dc-br-16406ed83e874dddabbb3a599.fly.dev/vercel.svg" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:01:02.410] Browser DEBUG   binding to error
+[00:01:06.317] Server  LOG     User not authenticated
+[00:01:11.597] Server  LOG     User not authenticated
+[00:01:12.206] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:12.314] Server  LOG     User not authenticated
+[00:01:12.353] Browser WARN    Image with src "https://df37a7d2869f4653997f3fdf6dd680dc-br-16406ed83e874dddabbb3a599.fly.dev/vercel.svg" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:01:15.183] Server  LOG     User not authenticated
+[00:01:16.330] Browser DEBUG   binding to error
+[00:01:16.447] Browser DEBUG   binding to error
+[00:01:18.319] Server  LOG     User not authenticated
+[00:01:24.333] Server  LOG     User not authenticated
+[00:01:30.327] Server  LOG     User not authenticated
+[00:01:36.324] Server  LOG     User not authenticated
+[00:01:42.326] Server  LOG     User not authenticated
+[00:01:48.326] Server  LOG     User not authenticated
+[00:01:54.327] Server  LOG     User not authenticated
+[00:02:00.333] Server  LOG     User not authenticated
+[00:02:06.333] Server  LOG     User not authenticated
+[00:02:12.330] Server  LOG     User not authenticated
+[00:02:18.331] Server  LOG     User not authenticated
+[00:02:24.330] Server  LOG     User not authenticated
+[00:02:30.336] Server  LOG     User not authenticated
+[00:02:36.335] Server  LOG     User not authenticated
+[00:02:42.338] Server  LOG     User not authenticated
+[00:02:48.338] Server  LOG     User not authenticated
+[00:02:54.337] Server  LOG     User not authenticated
+[00:02:56.279] Server  LOG     🍪 [MW] Accessing: /admin | Token exists? false
+[00:02:56.944] Server  LOG     User not authenticated
+[00:02:58.118] Server  LOG     🍪 [MW] Accessing: /admin | Token exists? false
+[00:02:58.718] Server  LOG     User not authenticated
+[00:02:59.735] Server  LOG     🍪 [MW] Accessing: /admin | Token exists? false
+[00:03:00.340] Server  LOG     User not authenticated
+[00:03:00.387] Server  LOG     User not authenticated
+[00:03:01.387] Server  LOG     🍪 [MW] Accessing: /admin | Token exists? false
+[00:03:01.979] Server  LOG     User not authenticated
+[00:03:02.118] Server  LOG     🍪 [MW] Accessing: /admin | Token exists? false
+[00:03:02.349] Server  LOG     🍪 [MW] Accessing: /admin | Token exists? false
+[00:03:02.844] Server  LOG     🍪 [MW] Accessing: /admin | Token exists? false
+[00:03:02.939] Server  LOG     User not authenticated
+[00:03:03.061] Server  LOG     🍪 [MW] Accessing: /admin | Token exists? false
+[00:03:03.285] Server  LOG     🍪 [MW] Accessing: /admin | Token exists? false
+[00:03:03.742] Server  LOG     🍪 [MW] Accessing: /admin | Token exists? false
+[00:03:03.882] Server  LOG     User not authenticated
+[00:03:03.972] Server  LOG     🍪 [MW] Accessing: /admin | Token exists? false
+[00:03:04.295] Server  LOG     🍪 [MW] Accessing: /admin | Token exists? false
+[00:03:04.504] Server  LOG     🍪 [MW] Accessing: /admin | Token exists? false
+[00:03:04.565] Server  LOG     User not authenticated
+[00:03:04.705] Server  LOG     🍪 [MW] Accessing: /admin | Token exists? false
+[00:03:04.913] Server  LOG     🍪 [MW] Accessing: /admin | Token exists? false
+[00:03:05.554] Server  LOG     User not authenticated
+[00:03:06.342] Server  LOG     User not authenticated
+[00:03:07.028] Browser DEBUG   binding to error
+[00:03:07.028] Browser DEBUG   binding to error
+[00:03:12.341] Server  LOG     User not authenticated
+[00:03:12.475] Server  LOG     User not authenticated
+[00:03:14.031] Browser DEBUG   binding to error
+[00:03:14.031] Browser DEBUG   binding to error
+[00:03:18.345] Server  LOG     User not authenticated
+[00:03:24.344] Server  LOG     User not authenticated
+[00:03:30.346] Server  LOG     User not authenticated
+[00:03:36.349] Server  LOG     User not authenticated
+[00:03:42.346] Server  LOG     User not authenticated
+[00:03:48.348] Server  LOG     User not authenticated
+[00:03:54.349] Server  LOG     User not authenticated
+[00:04:00.357] Server  LOG     User not authenticated
+[00:04:06.353] Server  LOG     User not authenticated
+[00:04:12.369] Server  LOG     User not authenticated
+[00:04:18.355] Server  LOG     User not authenticated
+[00:04:24.364] Server  LOG     User not authenticated
+[00:04:30.366] Server  LOG     User not authenticated
+[00:04:36.362] Server  LOG     User not authenticated
+[00:04:42.358] Server  LOG     User not authenticated
+[00:04:48.361] Server  LOG     User not authenticated
+[00:04:54.367] Server  LOG     User not authenticated
+[00:05:00.371] Server  LOG     User not authenticated
+[00:05:06.367] Server  LOG     User not authenticated
+[00:05:12.371] Server  LOG     User not authenticated
+[00:05:18.367] Server  LOG     User not authenticated
+[00:05:24.374] Server  LOG     User not authenticated
+[00:05:30.376] Server  LOG     User not authenticated
+[00:05:36.372] Server  LOG     User not authenticated
+[00:05:42.377] Server  LOG     User not authenticated
+[00:05:48.375] Server  LOG     User not authenticated
+[00:05:54.379] Server  LOG     User not authenticated
+[00:06:00.389] Server  LOG     User not authenticated
+[00:06:06.386] Server  LOG     User not authenticated
+[00:06:12.387] Server  LOG     User not authenticated
+[00:06:18.389] Server  LOG     User not authenticated
+[00:06:24.391] Server  LOG     User not authenticated
+[00:06:30.392] Server  LOG     User not authenticated
+[00:06:36.393] Server  LOG     User not authenticated
+[00:06:42.395] Server  LOG     User not authenticated
+[00:06:43.836] Server  LOG     🍪 [MW] Accessing: /admin | Token exists? false
+[00:06:44.487] Server  LOG     User not authenticated
+[00:06:45.951] Browser DEBUG   binding to error
+[00:06:48.398] Server  LOG     User not authenticated
+[00:06:54.395] Server  LOG     User not authenticated
+[00:07:00.399] Server  LOG     User not authenticated
+[00:07:06.397] Server  LOG     User not authenticated
+[00:07:12.401] Server  LOG     User not authenticated
+[00:07:18.403] Server  LOG     User not authenticated
+[00:07:24.404] Server  LOG     User not authenticated
+[00:07:30.403] Server  LOG     User not authenticated
+[00:07:36.406] Server  LOG     User not authenticated
+[00:07:42.413] Server  LOG     User not authenticated
+[00:07:48.408] Server  LOG     User not authenticated
+[00:07:54.407] Server  LOG     User not authenticated
+[00:08:00.415] Server  LOG     User not authenticated
+[00:08:06.408] Server  LOG     User not authenticated
