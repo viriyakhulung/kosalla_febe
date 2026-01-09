@@ -1,3 +1,5 @@
+import { USE_MOCK_API, mockLogin, mockGetMe, mockLogout } from "./mock-api";
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 export type LoginResponse = {
@@ -15,6 +17,17 @@ function clearTokenClient() {
 }
 
 export async function login(email: string, password: string): Promise<LoginResponse> {
+  // Use mock API if enabled via environment variable
+  if (USE_MOCK_API) {
+    try {
+      const data = await mockLogin(email, password);
+      setTokenClient(data.token);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   const res = await fetch(`${API_URL}/api/auth/login`, {
     method: "POST",
     headers: {
