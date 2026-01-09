@@ -70,3 +70,6 @@
 [00:23:41.033] Server  LOG     User not authenticated
 [00:23:47.034] Server  LOG     User not authenticated
 [00:23:53.034] Server  LOG     User not authenticated
+[00:23:59.037] Server  LOG     User not authenticated
+[00:23:59.252] Server  LOG     User not authenticated
+[00:23:59.871] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
