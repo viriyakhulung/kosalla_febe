@@ -6,3 +6,12 @@
 [00:00:14.506] Server  LOG     User not authenticated
 [00:00:15.551] Server  LOG     User not authenticated
 [00:00:16.160] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:16.747] Server  LOG      ✓ Compiled in 219ms
+[00:00:16.875] Server  LOG     User not authenticated
+[00:00:16.970] Server  LOG     User not authenticated
+[00:00:17.142] Server  LOG     User not authenticated
+[00:00:17.392] Browser DEBUG   binding to error
+[00:00:17.609] Server  LOG     User not authenticated
+[00:00:17.923] Server  LOG     User not authenticated
+[00:00:18.324] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:21.276] Server  LOG     User not authenticated

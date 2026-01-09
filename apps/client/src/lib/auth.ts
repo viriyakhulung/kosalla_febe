@@ -59,6 +59,16 @@ export async function login(email: string, password: string): Promise<LoginRespo
 }
 
 export async function me() {
+  // Use mock API if enabled
+  if (USE_MOCK_API) {
+    try {
+      return await mockGetMe();
+    } catch (error) {
+      clearTokenClient();
+      throw error;
+    }
+  }
+
   const token = localStorage.getItem("kosalla_token");
   if (!token) throw new Error("Unauthenticated");
 
@@ -84,6 +94,14 @@ export async function me() {
 }
 
 export async function logout() {
+  // Use mock API if enabled
+  if (USE_MOCK_API) {
+    mockLogout();
+    clearTokenClient();
+    await fetch("/api/session", { method: "DELETE", credentials: "include" }).catch(() => {});
+    return;
+  }
+
   const token = localStorage.getItem("kosalla_token");
 
   if (token) {
@@ -97,5 +115,5 @@ export async function logout() {
   }
 
   clearTokenClient();
-  await fetch("/api/session", { method: "DELETE",credentials:"include" }).catch(() => {});
+  await fetch("/api/session", { method: "DELETE", credentials: "include" }).catch(() => {});
 }
