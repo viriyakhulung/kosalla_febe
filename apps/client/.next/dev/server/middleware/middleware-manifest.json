@@ -3,9 +3,9 @@
   "middleware": {
     "/": {
       "files": [
-        "server/edge/chunks/kosalla-monorepo_6ccb4970._.js",
-        "server/edge/chunks/[root-of-the-server]__3cd9a42d._.js",
-        "server/edge/chunks/turbopack-kosalla-monorepo_apps_client_edge-wrapper_67fa0ce9.js"
+        "server/edge/chunks/_dd703f21._.js",
+        "server/edge/chunks/[root-of-the-server]__34600ef1._.js",
+        "server/edge/chunks/turbopack-apps_client_edge-wrapper_721305e6.js"
       ],
       "name": "middleware",
       "page": "/",
@@ -20,9 +20,9 @@
       "env": {
         "__NEXT_BUILD_ID": "development",
         "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY": "03tZdjaWqEkfvg3oWpwli3Kf6SjkamqJ0kY8FJKORKk=",
-        "__NEXT_PREVIEW_MODE_ID": "390cf477c4f25dddbab574cc7164c1a4",
-        "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "e9934f865eaf40254aa3df9e872472131ff6ef9cb096e6b43f86fff108fe9f85",
-        "__NEXT_PREVIEW_MODE_SIGNING_KEY": "b26e5d17c9f181946803da9101d41bc7168ea604357c6f93e8030c4e4526ee06"
+        "__NEXT_PREVIEW_MODE_ID": "ce9c9430f3c42ffd73735b35d09703fb",
+        "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "a3ffc68e304c82638a974e2f92e119f8b6527b92e16ace0d6b386d2c9fcafd34",
+        "__NEXT_PREVIEW_MODE_SIGNING_KEY": "7966e91a71e89d20d93c6503997e39e9b53f26c51f9d876c026eb7f6363f5b5c"
       }
     }
   },
