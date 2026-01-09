@@ -15,8 +15,14 @@ return new class extends Migration {
                 ->constrained('organizations')
                 ->restrictOnDelete();
 
-            // lokasi wajib (auto dari user.location)
+            // product dari admin inventory (opsi A)
+            $table->foreignId('inventory_item_id')
+                ->constrained('inventory_items')
+                ->restrictOnDelete();
+
+            // lokasi (kalau belum siap, set nullable dulu)
             $table->foreignId('location_id')
+                ->nullable()
                 ->constrained('locations')
                 ->restrictOnDelete();
 
@@ -30,16 +36,17 @@ return new class extends Migration {
 
             // form ringkas
             $table->string('subject', 200);
-            $table->text('description');
 
-            // enum sederhana (pakai string biar fleksibel dulu)
+            // mindmap: Issue Details hanya Description (WYSIWYG)
+            $table->longText('description_html');
+
+            // enum sederhana (string biar fleksibel)
             $table->string('priority', 20)->default('normal');  // low|normal|high
             $table->string('status', 30)->default('open');      // open|in_progress|resolved|closed
 
-            // opsional sesuai referensi
-            $table->string('action_number', 80)->nullable();
+            // opsional (boleh keep atau drop)
+            $table->string('tagging_word', 100)->nullable();
             $table->date('requested_resolution_date')->nullable();
-            $table->date('expected_date')->nullable();
 
             $table->timestamps();
 
@@ -48,6 +55,7 @@ return new class extends Migration {
             $table->index(['organization_id', 'status', 'created_at']);
             $table->index(['organization_id', 'location_id', 'created_at']);
             $table->index(['created_by', 'created_at']);
+            $table->index(['inventory_item_id', 'created_at']);
         });
     }
 

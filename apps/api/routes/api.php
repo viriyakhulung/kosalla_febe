@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\AuthController;
@@ -19,13 +18,14 @@ use App\Http\Controllers\Api\EngineerController;
 use App\Http\Controllers\Api\AdminUserController;
 use App\Http\Controllers\Api\MasterRoleController;
 use App\Http\Controllers\Api\PortalTicketController;
+use App\Http\Controllers\Api\TicketAttachmentController;
 
 // ===== PUBLIC =====
 Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
 });
 
-// ===== PROTECTED (Bearer Token Sanctum) =====
+// ===== PROTECTED =====
 Route::middleware('auth:sanctum')->group(function () {
 
     // Auth
@@ -34,90 +34,115 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
     });
 
-    // 👇👇👇 STEP 6: ROUTE KHUSUS PORTAL (User Biasa/CustStaff) 👇👇👇
-    // Menggunakan 'master_role' yang baru didaftarkan di bootstrap/app.php
+    /**
+     * =========================
+     * PORTAL ( /portal )
+     * Akses: custstaff, viriyastaff, superadmin
+     * =========================
+     */
     Route::prefix('portal')
         ->middleware(['master_role:custstaff,viriyastaff,superadmin'])
         ->group(function () {
-            // List Ticket (Milik Sendiri/Organisasi)
             Route::get('tickets', [PortalTicketController::class, 'index']);
-            
-            // Buat Ticket Baru (Auto Organization)
             Route::post('tickets', [PortalTicketController::class, 'store']);
-            
-            // Detail Ticket
             Route::get('tickets/{ticket}', [PortalTicketController::class, 'show']);
+             Route::get('inventory-items', [\App\Http\Controllers\Api\PortalInventoryItemController::class, 'index']);
         });
-    // 👆👆👆 SELESAI STEP 6 👆👆👆
 
-    // ===== SUPER ADMIN & ADMIN AREA =====
-    Route::prefix('admin')->group(function () {
+    /**
+     * =========================
+     * ADMIN ( /admin )
+     * Akses: superadmin
+     * =========================
+     */
+    Route::prefix('admin')
+        ->middleware(['master_role:superadmin'])
+        ->group(function () {
 
-        // Organizations: trash/restore/force
-        Route::get('organizations/trash', [OrganizationController::class, 'trash']);
-        Route::post('organizations/{id}/restore', [OrganizationController::class, 'restore']);
-        Route::delete('organizations/{id}/force', [OrganizationController::class, 'forceDelete']);
+            // Organizations: trash/restore/force
+            Route::get('organizations/trash', [OrganizationController::class, 'trash']);
+            Route::post('organizations/{id}/restore', [OrganizationController::class, 'restore']);
+            Route::delete('organizations/{id}/force', [OrganizationController::class, 'forceDelete']);
 
-        // Organizations CRUD
-        Route::apiResource('organizations', OrganizationController::class);
+            // Organizations CRUD
+            Route::apiResource('organizations', OrganizationController::class);
+            Route::apiResource('organizations.locations', LocationController::class)->shallow();
 
-        Route::apiResource('organizations.locations', LocationController::class)->shallow();
+            Route::apiResource('product-types', ProductTypeController::class);
 
-        Route::apiResource('product-types', ProductTypeController::class);
-        
-        Route::apiResource('organizations.inventory-items', InventoryItemController::class)->shallow();
+            Route::apiResource('organizations.inventory-items', InventoryItemController::class)->shallow();
 
-        Route::apiResource('team-groups', TeamGroupController::class);
+            Route::apiResource('team-groups', TeamGroupController::class);
 
+            // Team Members by Team Group
+            Route::get('team-groups/{teamGroup}/members', [TeamMemberController::class, 'index']);
+            Route::post('team-groups/{teamGroup}/members', [TeamMemberController::class, 'store']);
+            Route::put('team-groups/{teamGroup}/members/{user}', [TeamMemberController::class, 'update']);
+            Route::delete('team-groups/{teamGroup}/members/{user}', [TeamMemberController::class, 'destroy']);
+            Route::get('users', [TeamMemberController::class, 'users']);
 
-        // Team Members by Team Group
-        Route::get('team-groups/{teamGroup}/members', [TeamMemberController::class, 'index']);
-        Route::post('team-groups/{teamGroup}/members', [TeamMemberController::class, 'store']);
-        Route::put('team-groups/{teamGroup}/members/{user}', [TeamMemberController::class, 'update']);
-        Route::delete('team-groups/{teamGroup}/members/{user}', [TeamMemberController::class, 'destroy']);
-        Route::get('users', [TeamMemberController::class, 'users']);
+            Route::apiResource('users', AdminUserController::class);
 
-         Route::apiResource('users', AdminUserController::class);
+            // Admin Tickets
+            Route::get('tickets', [TicketController::class, 'index']);
+            Route::post('tickets', [TicketController::class, 'store']);
+            Route::get('tickets/{ticket}', [TicketController::class, 'show']);
+            Route::delete('tickets/{ticket}/force', [TicketController::class, 'forceDestroy']);
 
+            // optional dropdown role
+            Route::get('master-roles', [MasterRoleController::class, 'index']);
 
-        Route::get('tickets', [TicketController::class, 'index']);
-        Route::post('tickets', [TicketController::class, 'store']);
-        Route::get('tickets/{ticket}', [TicketController::class, 'show']);
+            // Contracts
+            Route::get('contracts/expiring-soon', [ContractController::class, 'expiringSoon']);
+            Route::apiResource('contracts', ContractController::class);
 
+            // Engineers
+            Route::get('engineers/candidates', [EngineerController::class, 'candidates']);
+            Route::apiResource('engineers', EngineerController::class);
 
-        // optional (buat dropdown role di FE)
-        Route::get('master-roles', [MasterRoleController::class, 'index']);
+            // Internal setup
+            Route::post('team-groups/assign', [TeamManagementController::class, 'assignUserToTeam']);
+            Route::post('users/{user}/role', [UserRoleController::class, 'setEngineerRole']);
+        });
 
-
-        // Contracts
-        Route::get('contracts/expiring-soon', [ContractController::class, 'expiringSoon']);
-        Route::apiResource('contracts', ContractController::class);
-
-
-        Route::get('engineers/candidates', [EngineerController::class, 'candidates']);
-        Route::apiResource('engineers', EngineerController::class);
-        // Internal setup
-        Route::post('team-groups/assign', [TeamManagementController::class, 'assignUserToTeam']);
-        Route::post('users/{user}/role', [UserRoleController::class, 'setEngineerRole']);
-    });
-
-    // ===== ENDUSER & CUSTSTAFF (Comment Only) =====
-    Route::middleware('role:enduser|custstaff')->group(function () {
-        // Route tickets index/store dipindah ke /portal di atas,
-        // Di sini sisa comment saja jika diperlukan
-        Route::post('tickets/{ticket}/comments', [TicketCommentController::class, 'store']);
-    });
-
-    // ===== ENGINEER & SUPER ADMIN =====
-    Route::middleware('role:engineer-manager|engineer-staff|superadmin')->group(function () {
+    /**
+     * =========================
+     * ENGINEER MODULE (non-admin)
+     * Akses: viriyastaff, superadmin
+     * =========================
+     */
+    Route::middleware(['master_role:viriyastaff,superadmin'])->group(function () {
         Route::patch('tickets/{ticket}/status', [TicketStatusController::class, 'update']);
-        Route::post('tickets/{ticket}/comments', [TicketCommentController::class, 'store']);
+    });
 
-        Route::delete('tickets/{ticket}/force', [TicketController::class, 'forceDestroy'])
-            ->middleware('role:engineer-manager|superadmin');
+    /**
+     * =========================
+     * SHARED: Attachments + Comments
+     * Akses: custstaff, viriyastaff, superadmin
+     * =========================
+     */
+    Route::middleware(['master_role:custstaff,viriyastaff,superadmin'])->group(function () {
+
+        // Attachments
+        Route::get('tickets/{ticket}/attachments', [TicketAttachmentController::class, 'index'])
+            ->name('tickets.attachments.index');
+
+        Route::post('tickets/{ticket}/attachments', [TicketAttachmentController::class, 'store'])
+            ->name('tickets.attachments.store');
+
+        Route::get('tickets/{ticket}/attachments/{attachment}/download', [TicketAttachmentController::class, 'download'])
+            ->name('tickets.attachments.download');
+
+        // Comments (single route)
+        Route::post('tickets/{ticket}/comments', [TicketCommentController::class, 'store']);
     });
 });
 
 // fallback login route name
 Route::get('/login', fn () => response()->json(['message' => 'Unauthorized (Silakan Login)'], 401))
     ->name('login');
+
+
+
+
+

@@ -42,7 +42,7 @@ export async function middleware(req: NextRequest) {
   }
 
   // token cookie wajib untuk route private
-  const token = req.cookies.get("token")?.value;
+  const token = req.cookies.get("kosalla_token")?.value;
 
   // 👇👇👇 [DEBUG LOG 1] Cek Token Cookie 👇👇👇
   console.log(`🍪 [MW] Accessing: ${pathname} | Token exists?`, Boolean(token));
@@ -61,7 +61,7 @@ export async function middleware(req: NextRequest) {
 
   if (!meRes.ok) {
     const res = NextResponse.redirect(new URL("/login", req.url));
-    res.cookies.delete("token");
+    res.cookies.delete("kosalla_token");
     return res;
   }
 

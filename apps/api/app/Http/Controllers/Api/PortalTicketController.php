@@ -15,14 +15,43 @@ class PortalTicketController extends Controller
     {
         $user = $request->user();
 
+        if (!$user?->organization_id) {
+            return response()->json(['message' => 'User belum punya organization_id'], 422);
+        }
+
+        $perPage = (int) $request->query('per_page', 20);
+        if ($perPage < 1) $perPage = 20;
+        if ($perPage > 100) $perPage = 100;
+
         $q = Ticket::query()
-            ->with(['location:id,name,organization_id', 'creator:id,name,email'])
             ->where('organization_id', $user->organization_id)
+            ->with([
+                'location:id,name,organization_id',
+                'creator:id,name,email',
+                'inventoryItem:id,name', // sesuaikan kolom inventory_items kamu
+            ])
+            ->withCount('attachments')
             ->orderByDesc('id');
 
-        $tickets = $q->paginate(20);
+        // optional filter sederhana
+        if ($request->filled('status')) {
+            $q->where('status', (string) $request->input('status'));
+        }
+        if ($request->filled('priority')) {
+            $q->where('priority', (string) $request->input('priority'));
+        }
+        if ($request->filled('category')) {
+            $q->where('category', (string) $request->input('category'));
+        }
+        if ($request->filled('q')) {
+            $keyword = (string) $request->input('q');
+            $q->where(function ($w) use ($keyword) {
+                $w->where('ticket_number', 'like', "%{$keyword}%")
+                  ->orWhere('subject', 'like', "%{$keyword}%");
+            });
+        }
 
-        return response()->json($tickets);
+        return response()->json($q->paginate($perPage));
     }
 
     // POST /api/portal/tickets
@@ -30,34 +59,33 @@ class PortalTicketController extends Controller
     {
         $user = $request->user();
 
-        if (!$user->organization_id) {
+        if (!$user?->organization_id) {
             return response()->json(['message' => 'User belum punya organization_id'], 422);
         }
-        if (!$user->location_id) {
+        if (!$user?->location_id) {
             return response()->json(['message' => 'User belum punya location_id'], 422);
         }
 
         $payload = $request->validated();
 
         $ticket = DB::transaction(function () use ($user, $payload) {
-            // ticket_number unik per organisasi: TCK-YYYY-000001
-            $year = now()->format('Y');
-            $prefix = "TCK-{$year}-";
+            // ticket_number unik per organisasi: TCK-{ORGID}-{YYYYMMDD}-{NNNN}
+            $date = now()->format('Ymd');
+            $prefix = "TCK-{$user->organization_id}-{$date}-";
 
-            // ambil nomor terakhir untuk org+year ini
             $last = Ticket::where('organization_id', $user->organization_id)
-                ->where('ticket_number', 'like', $prefix.'%')
+                ->where('ticket_number', 'like', $prefix . '%')
                 ->lockForUpdate()
                 ->orderByDesc('id')
                 ->value('ticket_number');
 
             $nextSeq = 1;
             if ($last) {
-                $lastSeq = intval(substr($last, strlen($prefix)));
+                $lastSeq = (int) substr($last, strlen($prefix));
                 $nextSeq = $lastSeq + 1;
             }
 
-            $ticketNumber = $prefix . str_pad((string)$nextSeq, 6, '0', STR_PAD_LEFT);
+            $ticketNumber = $prefix . str_pad((string) $nextSeq, 4, '0', STR_PAD_LEFT);
 
             return Ticket::create([
                 'organization_id' => $user->organization_id,
@@ -66,7 +94,13 @@ class PortalTicketController extends Controller
                 'ticket_number' => $ticketNumber,
 
                 'subject' => $payload['subject'],
-                'description' => $payload['description'],
+                'category' => $payload['category'] ?? null,
+                'inventory_item_id' => $payload['inventory_item_id'] ?? null,
+                'tagging_word' => $payload['tagging_word'] ?? null,
+
+                // ✅ mindmap: description-only (HTML)
+                'description_html' => $this->sanitizeHtml($payload['description_html']),
+
                 'priority' => $payload['priority'] ?? 'normal',
                 'status' => 'open',
 
@@ -78,7 +112,11 @@ class PortalTicketController extends Controller
 
         return response()->json([
             'message' => 'Ticket created',
-            'data' => $ticket->load(['location:id,name,organization_id', 'creator:id,name,email']),
+            'data' => $ticket->load([
+                'location:id,name,organization_id',
+                'creator:id,name,email',
+                'inventoryItem:id,name',
+            ])->loadCount('attachments'),
         ], 201);
     }
 
@@ -87,12 +125,51 @@ class PortalTicketController extends Controller
     {
         $user = $request->user();
 
-        if ($ticket->organization_id !== $user->organization_id) {
+        if (!$user?->organization_id || $ticket->organization_id !== $user->organization_id) {
             return response()->json(['message' => 'Forbidden'], 403);
         }
 
-        return response()->json([
-            'data' => $ticket->load(['location:id,name,organization_id', 'creator:id,name,email']),
-        ]);
+        $ticket->load([
+            'location:id,name,organization_id',
+            'creator:id,name,email',
+            'inventoryItem:id,name',
+            'attachments.uploader:id,name,email',
+        ])->loadCount('attachments');
+
+        $attachments = $ticket->attachments->map(function ($a) use ($ticket) {
+            return [
+                'id' => $a->id,
+                'original_name' => $a->original_name,
+                'mime_type' => $a->mime_type,
+                'size' => $a->size,
+                'uploaded_by' => $a->uploaded_by,
+                'uploader' => $a->uploader ? [
+                    'id' => $a->uploader->id,
+                    'name' => $a->uploader->name,
+                    'email' => $a->uploader->email,
+                ] : null,
+                'created_at' => $a->created_at,
+                'download_url' => route('tickets.attachments.download', [
+                    'ticket' => $ticket->id,
+                    'attachment' => $a->id,
+                ]),
+            ];
+        });
+
+        $data = $ticket->toArray();
+        $data['attachments'] = $attachments;
+
+        return response()->json(['data' => $data]);
+    }
+
+    private function sanitizeHtml(?string $html): ?string
+    {
+        if ($html === null) return null;
+
+        $allowed = '<p><br><b><strong><i><em><u><ul><ol><li><blockquote><code><pre><a>';
+        $clean = strip_tags($html, $allowed);
+        $clean = preg_replace('/href\s*=\s*["\']\s*javascript:[^"\']*["\']/i', 'href="#"', $clean);
+
+        return $clean;
     }
 }
