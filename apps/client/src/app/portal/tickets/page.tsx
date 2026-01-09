@@ -8,7 +8,7 @@ type Ticket = {
   id: number;
   ticket_number: string;
   subject: string;
-  status: string; // contoh: open
+  status: string;
   created_at: string;
   description_html?: string | null;
 
@@ -16,14 +16,11 @@ type Ticket = {
   priority?: string | null;
   tagging_word?: string | null;
 
-  // dari backend kita load inventoryItem (optional)
   inventory_item?: { id: number; name: string } | null;
 
-  // dari backend list: withCount('attachments')
   attachments_count?: number;
 };
 
-// paginate laravel
 type Paginated<T> = {
   data: T[];
   current_page: number;
@@ -47,9 +44,8 @@ export default function TicketHistoryPage() {
   const [error, setError] = useState("");
   const [tickets, setTickets] = useState<Ticket[]>([]);
 
-  // filters
   const [q, setQ] = useState("");
-  const [status, setStatus] = useState<"all" | "open">("all"); // sesuaikan kalau ada status lain
+  const [status, setStatus] = useState<"all" | "open">("all");
 
   async function load() {
     setLoading(true);
@@ -113,7 +109,6 @@ export default function TicketHistoryPage() {
           </div>
         </div>
 
-        {/* Filters */}
         <div className="rounded-xl border bg-white p-4 shadow-sm">
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div className="flex flex-col gap-2 md:flex-row md:items-center">
@@ -142,7 +137,6 @@ export default function TicketHistoryPage() {
           </div>
         </div>
 
-        {/* Table */}
         <div className="rounded-xl border bg-white shadow-sm overflow-hidden">
           <div className="border-b px-4 py-3 text-sm font-semibold text-slate-900">
             Tickets ({filtered.length})
